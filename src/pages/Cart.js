@@ -1,29 +1,36 @@
 import React, { Component } from 'react';
+import ShopContext from '../context/shop-context'
 import MainNavigation from '../components/MainNavigation/MainNavigation';
 
 class CartPage extends Component {
 
+  static contextType = ShopContext
+
   render() {
     return (
       <React.Fragment>
-        <MainNavigation cartItemNumber/>
+        <MainNavigation cartItemNumber={
+                      this.context.cart.reduce((count, curItem) => {
+                          return count + curItem.quantity;
+                        }, 0)
+                      }/>
         <main className="cart">
-          {/* {cart.length <= 0 && <p>No Item in the Cart!</p>}
+          {this.context.cart.length <= 0 && <p>No Item in the Cart!</p>}
           <ul>
-            {cart.map(cartItem => (
+            {this.context.cart.map(cartItem => (
               <li key={cartItem.id}>
                 <div>
                   <strong>{cartItem.title}</strong> - ${cartItem.price} (
                   {cartItem.quantity})
                 </div>
                 <div>
-                  <button>
+                  <button onClick={() => this.context.removeItem(cartItem.id)}>
                     Remove from Cart
                   </button>
                 </div>
               </li>
             ))}
-          </ul> */}
+          </ul>
         </main>
 
       </React.Fragment>

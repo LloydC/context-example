@@ -41,6 +41,23 @@ class App extends Component {
       this.setState({cart: updatedCart, cartSum: updateCartSum})
 }
 
+ removeProductFromCart = (productId) => {
+  const updatedCart = this.state.cart;
+  const updatedItemIndex = updatedCart.findIndex(
+      item => item.id === productId
+    );
+
+    const updatedItem = {
+      ...updatedCart[updatedItemIndex]
+    };
+    updatedItem.quantity--;
+    if (updatedItem.quantity <= 0) {
+      updatedCart.splice(updatedItemIndex, 1);
+    } else {
+      updatedCart[updatedItemIndex] = updatedItem;
+    }
+    this.setState({cart: updatedCart})
+}
 
   render() {
     return (
@@ -50,6 +67,7 @@ class App extends Component {
          cart: this.state.cart,
          cartSum: this.state.cartSum,
          addItem: this.addProductToCart,
+         removeItem: this.removeProductFromCart
        }
       }>
           <BrowserRouter>
