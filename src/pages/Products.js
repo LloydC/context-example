@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import MainNavigation from '../components/MainNavigation/MainNavigation';
+import ShopContext from '../context/shop-context'
 
 class ProductsPage extends Component {
   render() {
     return (
-          <React.Fragment>
+      <ShopContext.Consumer>
+        {context => (<React.Fragment>
             <MainNavigation cartItemNumber />
               <main className="products">
                 <ul>
-                  {/* {products.map(product => (
+                  {context.products.map(product => (
                     <li key={product.id}>
                       <div>
                         <strong>{product.title}</strong> - ${product.price}
@@ -19,10 +21,11 @@ class ProductsPage extends Component {
                         </button>
                       </div>
                     </li>
-                  ))} */}
+                  ))}
                 </ul>
               </main>
-      </React.Fragment>
+        </React.Fragment>)}
+      </ShopContext.Consumer>
     );
   }
 }
