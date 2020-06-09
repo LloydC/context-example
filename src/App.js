@@ -19,9 +19,39 @@ class App extends Component {
     removeItem: () => {},
   }
 
+   addProductToCart = (product) => {
+     console.log(product)
+    let updateCartSum = this.state.cartSum
+    const updatedCart = this.state.cart;
+
+    const updatedItemIndex = updatedCart.findIndex(// check if product exist in cart
+      item => item.id === product.id
+    );
+    if (updatedItemIndex < 0) { 
+      updatedCart.push({...product, quantity: 1 });
+      
+    } else { 
+      const updatedItem = {
+        ...updatedCart[updatedItemIndex]
+      };
+      updateCartSum++
+      updatedItem.quantity++;
+      updatedCart[updatedItemIndex] = updatedItem;
+    }
+      this.setState({cart: updatedCart, cartSum: updateCartSum})
+}
+
+
   render() {
     return (
-      <ShopContext.Provider value={{ products: this.state.products}}>
+      <ShopContext.Provider value={
+        {
+         products: this.state.products,
+         cart: this.state.cart,
+         cartSum: this.state.cartSum,
+         addItem: this.addProductToCart,
+       }
+      }>
           <BrowserRouter>
             <Switch>
               <Route path="/" component={ProductsPage} exact />

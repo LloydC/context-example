@@ -7,7 +7,11 @@ class ProductsPage extends Component {
     return (
       <ShopContext.Consumer>
         {context => (<React.Fragment>
-            <MainNavigation cartItemNumber />
+            <MainNavigation cartItemNumber={
+                      context.cart.reduce((count, curItem) => {
+                          return count + curItem.quantity;
+                        }, 0)
+                      }/>
               <main className="products">
                 <ul>
                   {context.products.map(product => (
@@ -16,7 +20,7 @@ class ProductsPage extends Component {
                         <strong>{product.title}</strong> - ${product.price}
                       </div>
                       <div>
-                        <button>
+                        <button onClick={()=> context.addItem(product)}>
                           Add to Cart
                         </button>
                       </div>
