@@ -1,30 +1,29 @@
-import React, { Component } from 'react';
+import React, { useContext } from 'react';
 import ShopContext from '../context/shop-context'
 import MainNavigation from '../components/MainNavigation/MainNavigation';
 
-class CartPage extends Component {
+const CartPage = (props) => {
 
-  static contextType = ShopContext
+  const shop = useContext(ShopContext);
 
-  render() {
     return (
       <React.Fragment>
         <MainNavigation cartItemNumber={
-                      this.context.cart.reduce((count, curItem) => {
+                      shop.cart.reduce((count, curItem) => {
                           return count + curItem.quantity;
                         }, 0)
                       }/>
         <main className="cart">
-          {this.context.cart.length <= 0 && <p>No Item in the Cart!</p>}
+          {shop.cart.length <= 0 && <p>No Item in the Cart!</p>}
           <ul>
-            {this.context.cart.map(cartItem => (
+            {shop.cart.map(cartItem => (
               <li key={cartItem.id}>
                 <div>
                   <strong>{cartItem.title}</strong> - ${cartItem.price} (
                   {cartItem.quantity})
                 </div>
                 <div>
-                  <button onClick={() => this.context.removeItem(cartItem.id)}>
+                  <button onClick={() => shop.removeItem(cartItem.id)}>
                     Remove from Cart
                   </button>
                 </div>
@@ -36,5 +35,4 @@ class CartPage extends Component {
       </React.Fragment>
     );
   }
-}
 export default CartPage;
